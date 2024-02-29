@@ -31,9 +31,11 @@ Fine-grained control over large language models (LLMs) remains a significant cha
 
 ### Rewards on Validation Set
 ![Validation Rewards](assets/validation_rewards.jpg)
-** Our method gives expanding empirical Pareto-front through the rejection-sampling iterations.
+
+Our method gives expanding empirical Pareto-front through the rejection-sampling iterations.
 
 
 ## AlpacaEval 2.0
 ![AlpacaEval 2.0](assets/alpacaeval.jpg)
-** With different arithemtic prompts, our model can generate responses balancing helpfulness and verbosity. The performance is competitive with Zephyr-beta.
+
+With different arithemtic prompts, our model can generate responses balancing helpfulness and verbosity. The performance is competitive with Zephyr-beta.
