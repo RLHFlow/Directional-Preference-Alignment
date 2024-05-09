@@ -6,7 +6,7 @@ This is the repo for paper "**Arithmetic Control of LLMs for Diverse User Prefer
 
 **Code**: Will be released soon. Stay tuned! 
 
-**Model**: [DPA-v1-Mistral-7B](https://huggingface.co/Haoxiang-Wang/DPA-v1-Mistral-7B/)
+**Model**: [DPA-v1-Mistral-7B](https://huggingface.co/RLHFlow/DPA-v1-Mistral-7B/)
 
 * Initialization: [SFT checkpoint](https://huggingface.co/HuggingFaceH4/mistral-7b-sft-beta)  of Mistral-7B trained on [UltraChat-200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k)
 * Training Dataset: [Ultra-Feedback](https://huggingface.co/datasets/openbmb/UltraFeedback) (same as [Zephyr-beta](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta))
@@ -52,7 +52,7 @@ print(generated_response)
 ```
 
 ### Reward Model
-If you are interested in the multi-objective reward model that we trained, you can check out the reward model at https://huggingface.co/Haoxiang-Wang/RewardModel-Mistral-7B-for-DPA-v1
+If you are interested in the multi-objective reward model that we trained, you can check out the reward model at [RLHFlow/RewardModel-Mistral-7B-for-DPA-v1](https://huggingface.co/RLHFlow/RewardModel-Mistral-7B-for-DPA-v1)
 
 It has 10-dimensional output, corresponding to the following attributes from HelpSteer and UltraFeedback
 ['helpsteer-helpfulness', 'helpsteer-correctness', 'helpsteer-coherence', 'helpsteer-complexity', 'helpsteer-verbosity', 'ultrafeedback-overall_score', "ultrafeedback-instruction_following", "ultrafeedback-truthfulness", "ultrafeedback-honesty", "ultrafeedback-helpfulness"]
