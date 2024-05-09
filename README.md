@@ -13,7 +13,8 @@ This is the repo for paper "**Arithmetic Control of LLMs for Diverse User Prefer
 
 ## Usage
 
-Use the code below to get started with the model.
+### Aligned LLM
+Use the code below to get started with our DPA model.
 
 + System Prompt:
   + Template: `"You are a helpful, respectful, and honest assistant who always responds to the user in a harmless way. Your response should maximize weighted rating = helpfulness*{weight_helpfulness} + verbosity*{weight_verbosity}"`
@@ -50,6 +51,40 @@ print(generated_response)
 # 'Romeo and Juliet is a tragic love story written by William Shakespeare, believed to have been written between 1591 and 1595. The play is based on an Italian tale called "The Tragical History of Romeus and Juliet" by Arthur Brooke, which was published in 1562.\n\nThe story revolves around two young star-crossed lovers, Romeo Montague and Juliet Capulet, from rival families in Verona, Italy. Their love is forbidden by their families, who have a long-standing feud. Despite the obstacles, Romeo and Juliet marry in secret and spend a few blissful days together before fate intervenes.\n\nA series of misunderstandings, miscommunications, and tragic events lead to the deaths of both Romeo and Juliet. Romeo believes that Juliet is dead, and in a fit of despair, he takes his own life. Juliet, who is actually still alive, awakens to find Romeo dead and takes her own life in grief.\n\nThe play explores themes of love, hate, fate, and the consequences of actions. It is known for its iconic characters, including the passionate Romeo, the fiery Juliet, and the noble Friar Lawrence, who tries to help the young lovers.\n\nRomeo and Juliet has been adapted into numerous films, stage productions, and other media over the years, and it remains a beloved and tragic tale of forbidden love.'
 ```
 
+### Reward Model
+If you are interested in the multi-objective reward model that we trained, you can check out the reward model at https://huggingface.co/Haoxiang-Wang/RewardModel-Mistral-7B-for-DPA-v1
+
+It has 10-dimensional output, corresponding to the following attributes from HelpSteer and UltraFeedback
+['helpsteer-helpfulness', 'helpsteer-correctness', 'helpsteer-coherence', 'helpsteer-complexity', 'helpsteer-verbosity', 'ultrafeedback-overall_score', "ultrafeedback-instruction_following", "ultrafeedback-truthfulness", "ultrafeedback-honesty", "ultrafeedback-helpfulness"]
+
+Here is a sample code that you can try
+```python
+from transformers import AutoModelForSequenceClassification,AutoTokenizer
+import torch
+device = 'cuda'
+path = "Haoxiang-Wang/RewardModel-Mistral-7B-for-DPA-v1"
+rm = AutoModelForSequenceClassification.from_pretrained(path, trust_remote_code=True).to(device)
+tokenizer = AutoTokenizer.from_pretrained(path) 
+
+input_template = "[INST] You must read the following conversation carefully and rate the assistant's response from score 0-100 in these aspects: helpfulness, correctness, coherence, honesty, complexity, verbosity\n\nUser: {prompt}\n\nAssistant: {response} [/INST]"
+
+# Use a sample from HelpSteer validation set
+prompt = 'What are some synonyms for the word "beautiful"?'
+response = "Nicely, Beautifully, Handsome, Stunning, Wonderful, Gorgeous, Pretty, Stunning, Elegant"
+
+model_inputs = tokenizer(input_template.format(prompt=prompt, response=response), return_tensors="pt").to(device)
+with torch.no_grad():
+    score = rm(**model_inputs).logits.squeeze().cpu().float().numpy()
+
+print(score)
+# [68.99269  69.62718  76.23071  33.48785  35.853596 63.833366 55.58917 68.7175 59.552124 46.465595]
+
+# Convert from our scale (0-100) to HelpSteer scale (0-4) 
+helpsteer_rewards_pred = (score[:5]-10)/20
+print(helpsteer_rewards_pred)
+# [2.9496346 2.981359  3.3115356 1.1743925 1.2926798]
+# The actual rewards from the HelpSteer dataset for this sample are [3,3,4,2,2]
+```
 ## Abstract
 Fine-grained control over large language models (LLMs) remains a significant challenge, hindering their adaptability to diverse user needs. While Reinforcement Learning from Human Feedback (RLHF) shows promise in aligning LLMs, its reliance on scalar rewards often limits its ability to capture diverse user preferences in real-world applications. To address this limitation, we introduce the Directional Preference Alignment (DPA) framework. Unlike the scalar-reward RLHF, DPA incorporates multi-objective reward modeling to represent diverse preference profiles. Additionally, DPA models user preferences as directions (i.e., unit vectors) in the reward space to achieve user-dependent preference control. Our method involves training a multi-objective reward model and then fine-tuning the LLM with a preference-conditioned variant of Rejection Sampling Finetuning (RSF), an RLHF method adopted by Llama 2. This method enjoys a better performance trade-off across various reward objectives. In comparison with the scalar-reward RLHF, DPA offers users intuitive control over LLM generation: they can arithmetically specify their desired trade-offs (e.g., more helpfulness with less verbosity). We also validate the effectiveness of DPA with real-world alignment experiments on Mistral-7B. Our method provides straightforward arithmetic control over the trade-off between helpfulness and verbosity while maintaining competitive performance with strong baselines such as Direct Preference Optimization (DPO). 
 
