@@ -1,6 +1,6 @@
 # Directional Preference Alignment
 
-This is the repo for paper "**Arithmetic Control of LLMs for Diverse User Preferences: Directional Preference Alignment with Multi-Objective Rewards**" by Haoxiang Wang*, Yong Lin*, Wei Xiong*, Rui Yang, Shizhe Diao, Shuang Qiu, Han Zhao, Tong Zhang
+This is the repo for our ACL'2024 long paper "**Arithmetic Control of LLMs for Diverse User Preferences: Directional Preference Alignment with Multi-Objective Rewards**" by Haoxiang Wang*, Yong Lin*, Wei Xiong*, Rui Yang, Shizhe Diao, Shuang Qiu, Han Zhao, Tong Zhang
 
 **arXiv**: https://arxiv.org/abs/2402.18571
 
@@ -119,12 +119,10 @@ With different arithemtic prompts, our model can generate responses balancing he
 # 
 If you find this work useful to your research, please consider citing our paper
 ```
-@article{wang2024arithmetic,
+@@inproceedings{wang2024arithmetic,
       title={Arithmetic Control of LLMs for Diverse User Preferences: Directional Preference Alignment with Multi-Objective Rewards}, 
       author={Haoxiang Wang and Yong Lin and Wei Xiong and Rui Yang and Shizhe Diao and Shuang Qiu and Han Zhao and Tong Zhang},
       year={2024},
-      eprint={2402.18571},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+      booktitle={ACL},
 }
 ```
