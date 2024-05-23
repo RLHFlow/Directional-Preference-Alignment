@@ -119,7 +119,7 @@ With different arithemtic prompts, our model can generate responses balancing he
 # 
 If you find this work useful to your research, please consider citing our paper
 ```
-@@inproceedings{wang2024arithmetic,
+@inproceedings{wang2024arithmetic,
       title={Arithmetic Control of LLMs for Diverse User Preferences: Directional Preference Alignment with Multi-Objective Rewards}, 
       author={Haoxiang Wang and Yong Lin and Wei Xiong and Rui Yang and Shizhe Diao and Shuang Qiu and Han Zhao and Tong Zhang},
       year={2024},
