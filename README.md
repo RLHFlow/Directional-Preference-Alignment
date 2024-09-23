@@ -4,7 +4,7 @@ This is the repo for our ACL'2024 long paper "**Arithmetic Control of LLMs for D
 
 **arXiv**: https://arxiv.org/abs/2402.18571
 
-**Code**: Will be released soon. Stay tuned! 
+**Code**: The multi-objective reward model training code is provided at https://github.com/RLHFlow/RLHF-Reward-Modeling/tree/main/armo-rm
 
 **Model**: [DPA-v1-Mistral-7B](https://huggingface.co/RLHFlow/DPA-v1-Mistral-7B/)
 
